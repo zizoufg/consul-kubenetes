@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: consul
+spec:
+  serviceName: consul
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul
+  template:
+    metadata:
+      labels:
+        app: consul
+    spec:
+      serviceAccountName: consul
+      containers:
+      - name: consul
+        image: consul:1.9.9
+        ports:
+        - containerPort: 8300
+          name: server
+        - containerPort: 8301
+          name: serflan
+        - containerPort: 8302
+          name: serfwan
+        - containerPort: 8400
+          name: rpc
+        - containerPort: 8500
+          name: http
+        - containerPort: 8600
+          name: dns
+        volumeMounts:
+        - name: consul-data
+          mountPath: /consul/data
+        - name: config
+          mountPath: /consul/config
+  volumeClaimTemplates:
+  - metadata:
+      name: consul-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+  - metadata:
+      name: config
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi

@@ -1,0 +1,13 @@
+# consul-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consul-config
+data:
+  config.json: |
+    {
+      "datacenter": "dc1",
+      "server": true,
+      "bootstrap_expect": 3,
+      "ui": true
+    }

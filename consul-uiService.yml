@@ -1,0 +1,16 @@
+# consul-ui-service.yaml
+# consul-ui-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-ui
+spec:
+  type:  LoadBalancer
+  selector:
+    app: consul
+  ports:
+    - protocol: TCP
+      port: 90
+      targetPort: 8500
+  
+
